@@ -19,7 +19,7 @@ docker run \
   maronato/bpostgres:11
 ```
 
-Them connect to it:
+Then connect to it:
 ```
 docker run -it --rm --network postgres_net maronato/bpostgres:11 psql -h postgres_db -U postgres
 ```
