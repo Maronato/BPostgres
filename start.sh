@@ -3,8 +3,8 @@
 # Check if each var is declared and if not,
 # set a sensible default
 
-if [ -z "${PGUSER}" ]; then
-  PGUSER=postgres
+if [ -z "${POSTGRES_USER}" ]; then
+  POSTGRES_USER=postgres
 fi
 
 if [ -z "${POSTGRES_PASS}" ]; then
@@ -33,14 +33,16 @@ fi
 # in then contenxt of then running cron script.
 
 echo "
-export PGUSER=$PGUSER
-export PGPASSWORD=$POSTGRES_PASS
+export PGUSER=$POSTGRES_USER
+export PGPASSWORD=$POSTGRES_PASSWORD
 export PGPORT=$POSTGRES_PORT
 export PGHOST=$POSTGRES_HOST
 export PGDATABASE=$POSTGRES_DBNAME
 export DUMPPREFIX=$DUMPPREFIX
 export ARCHIVE_FILENAME="${ARCHIVE_FILENAME}"
  " > /pgenv.sh
+
+ ls
 
 echo "Start script running with these environment options"
 set | grep PG

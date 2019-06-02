@@ -19,7 +19,20 @@ docker run \
   maronato/bpostgres:11
 ```
 
-Then connect to it:
+Then connect to it remotely using the network and the name of the container/service as host:
 ```
 docker run -it --rm --network postgres_net maronato/bpostgres:11 psql -h postgres_db -U postgres
+```
+
+## Restoring
+To restore, select a day (zero padded e.g 02), a month (full month name e.g. June), a year and the target database to restore.
+
+The year is optional and will default to the current.
+```
+docker exec -it postgres_db /bin/bash -c " \
+DAY=02 \
+MONTH=June \
+YEAR=2019 \
+TARGET_DB=mydb \
+./restore.sh"
 ```

@@ -2,24 +2,48 @@
 
 source /pgenv.sh
 
-echo "TARGET_DB: ${TARGET_DB}"
-echo "TARGET_ARCHIVE: ${TARGET_ARCHIVE}"
+DAY=${DAY}
+MONTH=${MONTH}
+YEAR=${YEAR:=$(date +%Y)}
+TARGET_DB=${TARGET_DB}
 
-if [ -z "${TARGET_ARCHIVE:-}" ] || [ ! -f "${TARGET_ARCHIVE:-}" ]; then
-        echo "TARGET_ARCHIVE needed."
+if [ -z "$DAY" ]; then
+        echo "DAY needed."
+        exit 1
+fi
+if [ -z "$MONTH" ]; then
+        echo "MONTH needed."
         exit 1
 fi
 
-if [ -z "${TARGET_DB:-}" ]; then
+if [ -z "$TARGET_DB" ]; then
         echo "TARGET_DB needed."
         exit 1
 fi
 
-echo "Dropping target DB"
-psql -U ${PGUSER} -c "DROP DATABASE ${TARGET_DB};"
-echo "Recreating DB"
-psql -U ${PGUSER} -c "CREATE DATABASE ${TARGET_DB};"
+DATE=$DAY-$MONTH-$YEAR
 
-echo "Restoring dump file"
-psql -U ${PGUSER} ${TARGET_DB} < /backups/globals.sql
-pg_restore -U ${PGUSER} ${TARGET_ARCHIVE} | psql -d ${TARGET_DB}
+BASEDIR=/backups
+BACKUPDIR=${BASEDIR}/${YEAR}/${MONTH}
+FILENAME=${BACKUPDIR}/${DUMPPREFIX}_${TARGET_DB}.${DATE}.dmp
+
+[ -f $FILENAME ] || (echo "$FILENAME does not exist" && exit 1)
+
+echo "You are about to restore the following DB:"
+echo "TARGET_DB: ${TARGET_DB}"
+echo "DAY: ${DAY}"
+echo "MONTH: ${MONTH}"
+echo "YEAR: ${YEAR}"
+read -r -p "Are you sure? [y/N] " response
+response=${response,,}    # tolower
+if [[ "$response" =~ ^(yes|y)$ ]]
+then
+    echo "Dropping target DB"
+    psql -U ${PGUSER} -c "DROP DATABASE ${TARGET_DB};"
+    echo "Recreating DB"
+    psql -U ${PGUSER} -c "CREATE DATABASE ${TARGET_DB};"
+
+    echo "Restoring dump file"
+    psql -U ${PGUSER} ${TARGET_DB} < /backups/globals.sql
+    pg_restore -U ${PGUSER} ${FILENAME} | psql -d ${TARGET_DB}
+fi
