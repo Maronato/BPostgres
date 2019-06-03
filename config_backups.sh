@@ -47,9 +47,6 @@ export ARCHIVE_FILENAME="${ARCHIVE_FILENAME}"
 echo "Start script running with these environment options"
 set | grep PG
 
-# Now launch cron in the background.
+echo "Starting cron in the background"
 /usr/sbin/crond -l 8
 
-echo "Starting postgres"
-# Start postgres
-su postgres -c postgres

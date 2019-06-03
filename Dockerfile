@@ -13,9 +13,8 @@ RUN touch /var/log/cron.log
 # Add backup restore and start scripts
 ADD backup.sh /backup.sh
 ADD restore.sh /restore.sh
-ADD start.sh /start.sh
 # Start crontab
 RUN /usr/bin/crontab /crontab.txt
 
 # Base command starts the cronjob in the foreground and then starts postgres
-CMD ["/start.sh"]
+COPY ./config_backups.sh /docker-entrypoint-initdb.d/config_backups.sh
