@@ -1,4 +1,4 @@
 # Run the backups at 3am
-0 3 * * * root /backups.sh 2>&1
+0 3 * * * root /backup.sh 2>&1
 
 # We need a blank line here for it to be a valid cron file
