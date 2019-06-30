@@ -13,7 +13,9 @@ RUN touch /var/log/cron.log
 # Add backup restore and start scripts
 ADD backup.sh /backup.sh
 ADD restore.sh /restore.sh
-# Start crontab
+RUN chmod a+x /backup.sh
+RUN chmod a+x /restore.sh
+# Set crontab
 RUN /usr/bin/crontab /crontab.txt
 
 # Base command starts the cronjob in the foreground and then starts postgres
