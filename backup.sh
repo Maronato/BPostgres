@@ -1,6 +1,15 @@
 #!/bin/bash
 
-source /pgenv.sh
+pgenv=/pgenv.sh
+config_backup=/docker-entrypoint-initdb.d/config_backups.sh
+
+# If /pgenv.sh does not exist, run config_backup again
+if [ ! -f $pgenv ]
+then
+      source $config_backup
+fi
+
+source $pgenv
 
 #echo "Running with these environment options" >> /var/log/cron.log
 #set | grep PG >> /var/log/cron.log
