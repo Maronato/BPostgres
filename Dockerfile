@@ -1,5 +1,5 @@
-# Use a Postgres version with PostGIS
-FROM mdillon/postgis:11-alpine
+# Use a Postgres
+FROM postgres:11-alpine
 
 # Set default env
 ENV PGDATA=/var/lib/postgresql/data/pgdata
