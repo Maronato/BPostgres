@@ -1,6 +1,6 @@
 # Postgres With Backups
 
-Postgres Database (+PostGIS) that auto backups every day at 3am.
+Postgres 12 Database that auto backups every day at 3am.
 
 To use it, create a volume that points to the database and one that points to the backups
 
@@ -16,7 +16,7 @@ docker run \
   -e POSTGRES_PASSWORD=mypassword \
   --name postgres_db \
   -d \
-  maronato/bpostgres:11
+  maronato/bpostgres:12
 ```
 
 Then connect to it remotely using the network and the name of the container/service as host:

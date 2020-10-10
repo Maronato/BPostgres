@@ -1,4 +1,4 @@
-# Use a Postgres version with PostGIS
+# Use Postgres version 12
 FROM postgres:12-alpine
 
 # Set default env
