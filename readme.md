@@ -1,6 +1,6 @@
 # Postgres With Backups
 
-Postgres Database (+PostGIS) that auto backups every day at 3am.
+Postgres 11 Database that auto backups every day at 3am.
 
 To use it, create a volume that points to the database and one that points to the backups
 
